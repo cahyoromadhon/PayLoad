@@ -32,6 +32,12 @@ x402 is a pattern that standardizes paywalls for APIs using HTTP 402 “Payment 
 5. Client pays the contract and retries the request with header `x-payment-tx: <transactionHash>`.
 6. Server verifies the transaction on-chain and, if valid, forwards the request to your target API and returns its response.
 
+## Smart Contract
+- Location: `contract/PayLoadGateway.sol`.
+- Responsibilities: receive payments, split funds between merchant and platform, emit `PaymentReceived` for on-chain auditing, enforce max fee updates via `onlyOwner`.
+- Defaults: `feeBasisPoints = 250` (2.5% platform fee), `owner` set on deploy. `setFee` caps at 10% (1000 bps). `pay(orderId, merchant)` forwards 97.5% to merchant and 2.5% to owner, emitting the order receipt event.
+- Deployment: deploy to your target network (e.g., Arbitrum Sepolia), then set `NEXT_PUBLIC_CONTRACT_ADDRESS` to the deployed address.
+
 ## Setup
 ### Prerequisites
 - Node.js 18+
@@ -125,12 +131,6 @@ curl -X GET \
 	- Decode contract event logs to validate `orderId` and `amount`.
 	- Enforce `from` address, timestamp windows, replay protection.
 	- Optional: signature-based receipts (off-chain) to reduce chain queries.
-
-	## Smart Contract
-	- Location: `contract/PayLoadGateway.sol`.
-	- Responsibilities: receive payments, split funds between merchant and platform, emit `PaymentReceived` for on-chain auditing, enforce max fee updates via `onlyOwner`.
-	- Defaults: `feeBasisPoints = 250` (2.5% platform fee), `owner` set on deploy. `setFee` caps at 10% (1000 bps). `pay(orderId, merchant)` forwards 97.5% to merchant and 2.5% to owner, emitting the order receipt event.
-	- Deployment: deploy to your target network (e.g., Arbitrum Sepolia), then set `NEXT_PUBLIC_CONTRACT_ADDRESS` to the deployed address.
 
 ## Development
 ### Run Dev Server
