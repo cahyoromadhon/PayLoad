@@ -1,6 +1,6 @@
 # PayLoad — Monetize Any API with x402
 
-![PayLoad UI Design](https://files.catbox.moe/pishwy.jpg)
+<img width="1557" height="864" alt="image" src="https://github.com/user-attachments/assets/28f38317-8825-46d5-bf77-77ebab978cd7" />
 
 ## Problem & Solution
 - **Problem:** API developers often struggle to monetize their endpoints. Building a custom billing backend, payment verification, dashboards, and access control for every API is time-consuming and complex.
