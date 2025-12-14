@@ -22,6 +22,7 @@ x402 is a pattern that standardizes paywalls for APIs using HTTP 402 “Payment 
 - `lib/mongodb.ts`: MongoDB connection helper (cached across hot reloads).
 - `models/Proxy.ts`: Mongoose schema for proxy configuration.
 - `app/layout.tsx`, `app/page.tsx`, `app/globals.css`: Next.js app shell and styles.
+- `contract/PayLoadGateway.sol`: Solidity smart contract handling payments, merchant payouts, and platform fee.
 
 ## How It Works
 1. You create a proxy by posting your target API URL, price (in ETH), and owner wallet address.
@@ -124,6 +125,12 @@ curl -X GET \
 	- Decode contract event logs to validate `orderId` and `amount`.
 	- Enforce `from` address, timestamp windows, replay protection.
 	- Optional: signature-based receipts (off-chain) to reduce chain queries.
+
+	## Smart Contract
+	- Location: `contract/PayLoadGateway.sol`.
+	- Responsibilities: receive payments, split funds between merchant and platform, emit `PaymentReceived` for on-chain auditing, enforce max fee updates via `onlyOwner`.
+	- Defaults: `feeBasisPoints = 250` (2.5% platform fee), `owner` set on deploy. `setFee` caps at 10% (1000 bps). `pay(orderId, merchant)` forwards 97.5% to merchant and 2.5% to owner, emitting the order receipt event.
+	- Deployment: deploy to your target network (e.g., Arbitrum Sepolia), then set `NEXT_PUBLIC_CONTRACT_ADDRESS` to the deployed address.
 
 ## Development
 ### Run Dev Server
