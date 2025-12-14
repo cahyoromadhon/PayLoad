@@ -1,5 +1,7 @@
 # PayLoad — Monetize Any API with x402
 
+![PayLoad UI Design](https://files.catbox.moe/pishwy.jpg)
+
 ## Problem & Solution
 - **Problem:** API developers often struggle to monetize their endpoints. Building a custom billing backend, payment verification, dashboards, and access control for every API is time-consuming and complex.
 - **Solution:** PayLoad lets you monetize any API endpoint instantly via the x402 payment protocol. Paste your target API URL, set a price in ETH, and get a payment-gated proxy URL. Clients call your proxy; if no valid payment proof is provided, the server responds with HTTP 402 and payment instructions. Once payment is verified on-chain, the proxy forwards the request to your original API.
